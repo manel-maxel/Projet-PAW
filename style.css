@@ -3,7 +3,7 @@
   padding: 0;
 }
 nav{
-  background-color: antiquewhite;
+  background-color: rgb(58, 137, 202);
   padding: 15px;
 }
 .navbar{
@@ -12,37 +12,104 @@ nav{
   padding: 20px 50px;
 }
 .navbar a{
-  color: black;
+  color: rgb(244, 242, 242);
   text-decoration: none;
-
+  font-size: 20px;
 }
+.contair h1{
+   text-align: center;
+   margin: 20px 0px;
+   color: #2c3e50;
+}
+hr{
+  width: 500px;
+   margin: 0 auto;
+}
+#attendance-list h2{
+  text-align: left;
+  margin: 10px 15px;
+  color: #2c3e50;
+}
+
+
 table{
-     border-collapse: collapse;
-      width: 70%;
-      height: 100px;
-      margin: 20px auto;
+      border-collapse: collapse;
+      width: 98%;
+      height: 150px;
+      margin: 20px 5px;
+      color: #2c3e50;
       text-align: center;
+      
 
 }
-h1{
- 
-   justify-content: center;
+.center h2{
+   margin: 10px 0;
+   color: #2c3e50;
 }
 .center{
   display: flex;
-   justify-content: center;
+  justify-content: center;
+}
+.form{
+ position:absolute;
+ background-color: rgb(228, 244, 239);
+ width: 98%;
+ padding: 25px ;
+ border: 1px solid #000;
+ border-radius: 10px;
+ box-sizing: border-box;
  
 }
-.center form{
- position:absolute;
- background-color: rgb(184, 243, 223);
- width: 50%;
- padding: 25px 40px;
- border: 1px solid #000;
+.form input{
 
-}
-form input{
   height: 40px;
   width: 80%;
   border-radius: 1px solid silver;
+  margin-top: 20px;
+  border: none;
+  border-radius: 3px;
 }
+input[type="text"],input[type="email"] { 
+  padding: 12px 15px;
+            
+        }
+button{
+  font-size: 20px;
+   border: none;
+   color: white;
+  border-radius: 3px;
+  background-color: rgb(123, 182, 245);
+  height: 50px;
+  width: 80%;
+}
+.status-good {
+  background-color: #d4edda;
+}
+
+.status-warn {
+  background-color: #fff3cd;
+}
+
+.status-bad {
+  background-color: #f8d7da;
+}
+
+.absences, .participation, .message {
+  font-weight: bold;
+}
+
+.message.small {
+  font-size: 12px;
+}
+ @media (max-width: 768px) {
+            .navbar a {
+                display: block;
+                margin: 5px 0;
+                text-align: center;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }

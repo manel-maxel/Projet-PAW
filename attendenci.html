@@ -12,13 +12,18 @@
   <header>
     <nav class="navbar">
      <a href="#Home">Home</a>
-     <a href="#Attendance List">Attendance List </a>
-     <a href="#Add Student"> Add Student</a>
+     <a href="#attendance-list" >Attendance List </a>
+     <a href="#add-Student"> Add Student</a>
      <a href ="#Reports">Reports</a>
      <a href="#Logout">Logout </a>
     </nav>
   </header>
-  <table border="1">
+  <div class="contair">
+  <h1>Student Attendance System </h1>
+  <hr>
+    <section id="attendance-list">
+      <h2>The Attendance Table</h2>
+  <table   border="1">
  <tr>
  <th rowspan="2">Last Name </th>
  <th rowspan="2">First Name</th>
@@ -30,65 +35,61 @@
  <th colspan="2">S6</th>
  <th rowspan="2">Absences </th>
  <th rowspan="2">Participation</th>
+ <th rowspan="2">Message</th>
  </tr>
 <tr>
-  <th>P</th>
-  <th>Pa </th>
-   <th>P</th>
-  <th>Pa </th>
-   <th>P</th>
-  <th>Pa </th>
-   <th>P</th>
-  <th>Pa </th>
-   <th>P</th>
-  <th>Pa </th>
-  <th>P</th>
-  <th>Pa </th>
+   <th>P</th><th>Pa </th>
+   <th>P</th><th>Pa </th>
+   <th>P</th><th>Pa </th>
+   <th>P</th><th>Pa </th>
+   <th>P</th><th>Pa </th>
+   <th>P</th><th>Pa </th>
 </tr>
  <tr>
  <td>Ahmed</td>
  <td>Sarah</td>
- <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
- <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox"  /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td class="absences small">0</td>
-      <td class="parts small">0</td>
+ <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td class="absences">0</td>
+      <td class="participation num">0</td>
       <td class="message small"></td>
  </tr>
  <tr>
  <td>Yacine</td>
  <td>Ali</td>
-  <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
- <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox"  /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td class="absences small">0</td>
-      <td class="parts small">0</td>
+ <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td class="absences">0</td>
+      <td class="participation num">0</td>
       <td class="message small"></td>
 </tr>
 <tr>
  <td>Houcine</td>
  <td>Rania</td>
- <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
- <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox"  /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox"  /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td><input class="present" type="checkbox" /></td><td><input class="part" type="checkbox" /></td>
-      <td class="absences small">0</td>
-      <td class="parts small">0</td>
+<td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td><input class="present" type="checkbox"> </td><td><input class="participate" type="checkbox"></td>
+      <td class="absences">0</td>
+      <td class="participation num">0</td>
       <td class="message small"></td>
  </tr>
 </table>
-
+</section>
+<section id="add-Student">
 <div class="center">
-<form method="post">
-  <h1>New Student</h1>
+<form method="post" class="form">
+  <h2>Add New Student</h2>
   <div>
     <label for="Student">Student ID </label>  </br>
     <input type="text" id="Student" placeholder="Student Id" required>
@@ -111,6 +112,8 @@
   </br>
   <button>Submit</button>
 </form>
+</div>
+ </section>
 </div>
 </body>
 </html>
