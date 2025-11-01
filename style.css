@@ -82,6 +82,25 @@ button{
   height: 50px;
   width: 80%;
 }
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 18px;
+}
+
+.form input.invalid {
+    border: 2px solid #dc3545 !important;
+    background-color: #f8d7da;
+}
+
+.form input.valid {
+    border: 2px solid #28a745 !important;
+}
+
+.form div {
+    margin-bottom: 10px;
+}
 .status-good {
   background-color: #d4edda;
 }

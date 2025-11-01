@@ -88,29 +88,37 @@
 </section>
 <section id="add-Student">
 <div class="center">
-<form method="post" class="form">
+<form method="post" class="form" id="addStudentForm">
   <h2>Add New Student</h2>
+    
   <div>
-    <label for="Student">Student ID </label>  </br>
+    <label for="Student">Student ID</label></br>
     <input type="text" id="Student" placeholder="Student Id" required>
+    <div class="error-message" id="studentIdError"></div>
   </div>
   </br>
+  
   <div>
-    <label for="LastName">Last Name </label> </br>
-  <input type="text" id="LastName" placeholder="Last Name" required>
-</div>
-</br>
-  <div>
-    <label for="FirstName">First Name </label> </br>
-    <input type="text" id="FirstName" placeholder=" First Name" required></br>
+    <label for="LastName">Last Name</label></br>
+    <input type="text" id="LastName" placeholder="Last Name" required>
+    <div class="error-message" id="lastNameError"></div>
   </div>
-</br>
+  </br>
+  
   <div>
-  <label for="Email">Email </label> </br>
+    <label for="FirstName">First Name</label></br>
+    <input type="text" id="FirstName" placeholder="First Name" required></br>
+    <div class="error-message" id="firstNameError"></div>
+  </div>
+  </br>
+  
+  <div>
+  <label for="Email">Email</label></br>
   <input type="email" id="Email" placeholder="Email" name="email" required>
+  <div class="error-message" id="emailError"></div>
   </div>
   </br>
-  <button>Submit</button>
+  <button type="submit">Submit</button>
 </form>
 </div>
  </section>
