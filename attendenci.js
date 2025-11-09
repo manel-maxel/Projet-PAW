@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('JavaScript loaded - starting attendance system');
-    
-    // Initialize attendance system
+
     initializeAttendanceSystem();
     
-    // Initialize form validation
     initializeFormValidation();
 });
 
@@ -158,31 +156,55 @@ function initializeFormValidation() {
     firstNameInput.addEventListener('input', validateFirstName);
     emailInput.addEventListener('input', validateEmail);
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        console.log('Form submission attempted');
-        
-        const isStudentIdValid = validateStudentId();
-        const isLastNameValid = validateLastName();
-        const isFirstNameValid = validateFirstName();
-        const isEmailValid = validateEmail();
+   form.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        console.log('Validation results:', {
-            studentId: isStudentIdValid,
-            lastName: isLastNameValid,
-            firstName: isFirstNameValid,
-            email: isEmailValid
-        });
+    console.log('Form submission attempted');
 
-        if (isStudentIdValid && isLastNameValid && isFirstNameValid && isEmailValid) {
-            alert('Student added successfully!');
-            form.reset();
-            clearAllValidations();
-        } else {
-            alert('Please fix the validation errors before submitting.');
+    const isStudentIdValid = validateStudentId();
+    const isLastNameValid = validateLastName();
+    const isFirstNameValid = validateFirstName();
+    const isEmailValid = validateEmail();
+
+    if (isStudentIdValid && isLastNameValid && isFirstNameValid && isEmailValid) {
+      
+        const table = document.querySelector('#attendance-list table');
+        if (!table) {
+            alert('Attendance table not found.');
+            return;
         }
-    });
+
+        const newRow = document.createElement('tr');
+
+        
+        const lastName = document.getElementById('LastName').value.trim();
+        const firstName = document.getElementById('FirstName').value.trim();
+
+        newRow.innerHTML = `
+            <td>${lastName}</td>
+            <td>${firstName}</td>
+            ${Array(6).fill('<td><input class="present" type="checkbox"></td><td><input class="participate" type="checkbox"></td>').join('')}
+            <td class="absences">0</td>
+            <td class="participation num">0</td>
+            <td class="message small"></td>
+        `;
+
+      
+        table.appendChild(newRow);
+
+       
+        initializeAttendanceSystem();
+
+       
+        alert('✅ Student added successfully!');
+
+       
+        form.reset();
+        clearAllValidations();
+    } else {
+        alert('Please fix the validation errors before submitting.');
+    }
+});
 
     studentIdInput.addEventListener('blur', validateStudentId);
     lastNameInput.addEventListener('blur', validateLastName);
