@@ -78,9 +78,12 @@ button{
    border: none;
    color: white;
   border-radius: 3px;
-  background-color: rgb(123, 182, 245);
+  background-color: rgb(67, 150, 237);
   height: 50px;
   width: 80%;
+}
+button:hover {
+  background-color: #7ab1eb;
 }
 .error-message {
     color: #dc3545;
@@ -95,7 +98,7 @@ button{
 }
 
 .form input.valid {
-    border: 2px solid #28a745 !important;
+    border: 2px solid #82ea9b !important;
 }
 
 .form div {
@@ -122,20 +125,21 @@ button{
 }
 .report-section {
   margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 #showReportBtn {
   background-color: #007bff;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
 #showReportBtn:hover {
-  background-color: #0056b3;
+  background-color: #7ab1eb;
 }
 
  @media (max-width: 768px) {
