@@ -153,19 +153,16 @@ function initializeFormValidation() {
         return;
     }
 
-    // Real-time validation as user types
     studentIdInput.addEventListener('input', validateStudentId);
     lastNameInput.addEventListener('input', validateLastName);
     firstNameInput.addEventListener('input', validateFirstName);
     emailInput.addEventListener('input', validateEmail);
 
-    // Form submission handler
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         
         console.log('Form submission attempted');
         
-        // Validate all fields
         const isStudentIdValid = validateStudentId();
         const isLastNameValid = validateLastName();
         const isFirstNameValid = validateFirstName();
@@ -178,7 +175,6 @@ function initializeFormValidation() {
             email: isEmailValid
         });
 
-        // If all valid, submit the form
         if (isStudentIdValid && isLastNameValid && isFirstNameValid && isEmailValid) {
             alert('Student added successfully!');
             form.reset();
@@ -188,7 +184,6 @@ function initializeFormValidation() {
         }
     });
 
-    // Blur validation (when user leaves field)
     studentIdInput.addEventListener('blur', validateStudentId);
     lastNameInput.addEventListener('blur', validateLastName);
     firstNameInput.addEventListener('blur', validateFirstName);
@@ -209,7 +204,6 @@ function validateStudentId() {
     
     clearError(inputElement, errorElement);
     
-    // Validation rules
     if (studentId === '') {
         return showError(inputElement, errorElement, 'Student ID is required');
     }
@@ -298,7 +292,6 @@ function validateEmail() {
     return true;
 }
 
-// Helper functions
 function showError(inputElement, errorElement, message) {
     inputElement.classList.add('invalid');
     inputElement.classList.remove('valid');
