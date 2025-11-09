@@ -343,3 +343,68 @@ function clearAllValidations() {
         error.textContent = '';
     });
 }
+// 📊 REPORT BUTTON
+const showReportBtn = document.getElementById('showReportBtn');
+const reportCanvas = document.getElementById('reportChart');
+let reportChart = null;
+
+if (showReportBtn) {
+    showReportBtn.addEventListener('click', () => {
+        const rows = document.querySelectorAll('#attendance-list table tr');
+        let totalStudents = 0;
+        let presentCount = 0;
+        let participateCount = 0;
+
+        rows.forEach((row, index) => {
+            // Skip header row
+            if (index === 0) return;
+
+            totalStudents++;
+
+            // Check if "present" box checked at least once
+            const presentBoxes = row.querySelectorAll('input.present');
+            const participateBoxes = row.querySelectorAll('input.participate');
+
+            presentBoxes.forEach(box => {
+                if (box.checked) presentCount++;
+            });
+
+            participateBoxes.forEach(box => {
+                if (box.checked) participateCount++;
+            });
+        });
+
+        // 🧾 Show totals in console (debug)
+        console.log(`Total: ${totalStudents}, Present: ${presentCount}, Participate: ${participateCount}`);
+
+        // 🎨 Display the chart
+        reportCanvas.style.display = 'block';
+
+        const data = {
+            labels: ['Total Students', 'Present', 'Participated'],
+            datasets: [{
+                label: 'Attendance Report',
+                data: [totalStudents, presentCount, participateCount],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107']
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        };
+
+        // Destroy previous chart if it exists
+        if (reportChart) {
+            reportChart.destroy();
+        }
+
+        reportChart = new Chart(reportCanvas, config);
+    });
+}

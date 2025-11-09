@@ -120,6 +120,24 @@ button{
 .message.small {
   font-size: 12px;
 }
+.report-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#showReportBtn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#showReportBtn:hover {
+  background-color: #0056b3;
+}
+
  @media (max-width: 768px) {
             .navbar a {
                 display: block;
