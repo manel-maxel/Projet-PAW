@@ -7,6 +7,8 @@
   
   <!-- ✅ Ajout de Chart.js avant ton script -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <script src="attendenci.js" defer></script>
 
   <title>Attendance Student</title>
@@ -93,6 +95,11 @@
           <td class="message small"></td>
         </tr>
       </table>
+      <div class="highlight-controls">
+             <button id="highlightExcellentBtn">Highlight Excellent Students</button>
+        <button id="resetColorsBtn">Reset Colors</button>
+       </div>
+
 
      <section id="Reports">
       <div class="report-section">

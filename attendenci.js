@@ -343,7 +343,7 @@ function clearAllValidations() {
         error.textContent = '';
     });
 }
-// 📊 REPORT BUTTON
+
 const showReportBtn = document.getElementById('showReportBtn');
 const reportCanvas = document.getElementById('reportChart');
 let reportChart = null;
@@ -356,12 +356,12 @@ if (showReportBtn) {
         let participateCount = 0;
 
         rows.forEach((row, index) => {
-            // Skip header row
+            
             if (index === 0) return;
 
             totalStudents++;
 
-            // Check if "present" box checked at least once
+            
             const presentBoxes = row.querySelectorAll('input.present');
             const participateBoxes = row.querySelectorAll('input.participate');
 
@@ -374,10 +374,10 @@ if (showReportBtn) {
             });
         });
 
-        // 🧾 Show totals in console (debug)
+
         console.log(`Total: ${totalStudents}, Present: ${presentCount}, Participate: ${participateCount}`);
 
-        // 🎨 Display the chart
+        
         reportCanvas.style.display = 'block';
 
         const data = {
@@ -400,7 +400,7 @@ if (showReportBtn) {
             }
         };
 
-        // Destroy previous chart if it exists
+        
         if (reportChart) {
             reportChart.destroy();
         }
@@ -408,3 +408,52 @@ if (showReportBtn) {
         reportChart = new Chart(reportCanvas, config);
     });
 }
+// 🧠 Exercise 5 
+$(document).ready(function() {
+   
+    $('#attendance-list table tr').hover(
+        function() {
+            $(this).css('background-color', '#d1ecf1'); 
+        },
+        function() {
+            $(this).css('background-color', ''); 
+        }
+    );
+
+    $('#attendance-list table tr').on('click', function() {
+        if ($(this).index() === 0) return;
+
+        const lastName = $(this).find('td').eq(0).text();
+        const firstName = $(this).find('td').eq(1).text();
+        const absences = $(this).find('.absences').text();
+
+        alert(`👩‍🎓 Student: ${firstName} ${lastName}\n❌ Absences: ${absences}`);
+    });
+});
+// 🌟 Exercise 6 
+$(document).ready(function() {
+    $('#highlightExcellentBtn').click(function() {
+        $('#attendance-list table tr').each(function(index) {
+            if (index === 0) return;
+
+            const absences = parseInt($(this).find('.absences').text()) || 0;
+
+            if (absences < 3) {
+                $(this)
+                    .css('background-color', '#d4edda') 
+                    .fadeOut(300)
+                    .fadeIn(300)
+                    .animate({ opacity: 1.0 }, 500);
+            }
+        });
+    });
+
+    $('#resetColorsBtn').click(function() {
+        $('#attendance-list table tr').each(function(index) {
+            if (index === 0) return;
+            $(this).css('background-color', ''); // Reset to original
+        });
+    });
+});
+
+

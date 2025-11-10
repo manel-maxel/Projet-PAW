@@ -141,6 +141,34 @@ button:hover {
 #showReportBtn:hover {
   background-color: #7ab1eb;
 }
+#attendance-list table tr {
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+#attendance-list table tr:hover {
+  background-color: #e8f5e9;
+}
+.highlight-controls {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.highlight-controls button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.highlight-controls button:hover {
+  background-color: #0056b3;
+}
+
 
  @media (max-width: 768px) {
             .navbar a {
