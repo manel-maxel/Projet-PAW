@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFormValidation();
 });
 
+// pour calculer la presence et la participation
 function initializeAttendanceSystem() {
     const TOTAL_SESSIONS = 6;
 
@@ -15,8 +16,8 @@ function initializeAttendanceSystem() {
         const presentCheckboxes = row.querySelectorAll('input.present');
         const participateCheckboxes = row.querySelectorAll('input.participate');
         
-        console.log('Found present checkboxes:', presentCheckboxes.length);
-        console.log('Found participate checkboxes:', participateCheckboxes.length);
+       /* console.log('Found present checkboxes:', presentCheckboxes.length);
+        console.log('Found participate checkboxes:', participateCheckboxes.length);*/
 
         let presentCount = 0;
         let participateCount = 0;
@@ -408,7 +409,7 @@ if (showReportBtn) {
         reportChart = new Chart(reportCanvas, config);
     });
 }
-// 🧠 Exercise 5 
+//  Exercise 5 
 $(document).ready(function() {
    
     $('#attendance-list table tr').hover(
@@ -430,7 +431,7 @@ $(document).ready(function() {
         alert(`👩‍🎓 Student: ${firstName} ${lastName}\n❌ Absences: ${absences}`);
     });
 });
-// 🌟 Exercise 6 
+//Exercise 6 
 $(document).ready(function() {
     $('#highlightExcellentBtn').click(function() {
         $('#attendance-list table tr').each(function(index) {
@@ -455,5 +456,77 @@ $(document).ready(function() {
         });
     });
 });
-
+//  Exercise 7 
+$(document).ready(function() {
+   
+    $('#searchByName').on('input', function() {
+        const searchTerm = $(this).val().toLowerCase().trim();
+        
+        if (searchTerm === '') {
+          
+            $('#attendance-list table tr').show();
+            return;
+        }
+        
+        $('#attendance-list table tr').each(function(index) {
+           
+            if (index === 0 || index === 1) return;
+            
+            const lastName = $(this).find('td').eq(0).text().toLowerCase();
+            const firstName = $(this).find('td').eq(1).text().toLowerCase();
+            
+            if (lastName.includes(searchTerm) || firstName.includes(searchTerm)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+    
+    $('#sortByAbsencesAsc').click(function() {
+        const rows = $('#attendance-list table tr').slice(2).toArray(); // Get data rows only (skip headers)
+        
+        rows.sort(function(a, b) {
+            const absencesA = parseInt($(a).find('.absences').text()) || 0;
+            const absencesB = parseInt($(b).find('.absences').text()) || 0;
+            
+            return absencesA - absencesB; 
+        });
+       
+        const tbody = $('#attendance-list table');
+        rows.forEach(row => {
+            tbody.append(row);
+        });
+        
+        $('#sortMessage').text('Currently sorted by absences (ascending)').fadeIn();
+        
+        console.log('Sorted by absences (ascending)');
+    });
+    
+    $('#sortByParticipationDesc').click(function() {
+        const rows = $('#attendance-list table tr').slice(2).toArray(); 
+       
+        rows.sort(function(a, b) {
+            const participationA = parseInt($(a).find('.participation').text()) || 0;
+            const participationB = parseInt($(b).find('.participation').text()) || 0;
+            
+            return participationB - participationA;
+        });
+        
+        const tbody = $('#attendance-list table');
+        rows.forEach(row => {
+            tbody.append(row);
+        });
+        
+        $('#sortMessage').text('Currently sorted by participation (descending)').fadeIn();
+        
+        console.log('Sorted by participation (descending)');
+    });
+    
+    $('#searchByName').on('input', function() {
+        if ($(this).val().trim() !== '') {
+            $('#sortMessage').fadeOut();
+        }
+    });
+});
 

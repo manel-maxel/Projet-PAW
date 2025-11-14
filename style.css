@@ -170,6 +170,102 @@ button:hover {
 }
 
 
+/* Exercise 7 Styles */
+.controls-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.search-control {
+    margin-bottom: 15px;
+}
+
+.search-control label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #495057;
+}
+
+#searchByName {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 300px;
+    font-size: 14px;
+}
+
+#searchByName:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(99, 152, 210, 0.25);
+}
+
+.sort-controls {
+    margin-bottom: 15px;
+    width: 400px;
+}
+
+.sort-controls button {
+    padding: 5px 7px;
+    margin-right: 10px;
+    background-color: #589edb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.sort-controls button:hover {
+    background-color: #5a6268;
+}
+
+.sort-controls button:active {
+    transform: translateY(1px);
+}
+
+.sort-message {
+    padding: 10px;
+    background-color: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 4px;
+    color: #0066cc;
+    font-weight: bold;
+    display: none;
+}
+
+.highlight-controls {
+    margin: 15px 0;
+}
+
+.highlight-controls button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.highlight-controls button:hover {
+    background-color: #138496;
+}
+
+#resetColorsBtn {
+    background-color: #6c757d;
+}
+
+#resetColorsBtn:hover {
+    background-color: #5a6268;
+}
+
  @media (max-width: 768px) {
             .navbar a {
                 display: block;

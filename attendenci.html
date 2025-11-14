@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="style.css" rel="stylesheet">
-  
-  <!-- ✅ Ajout de Chart.js avant ton script -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -30,6 +28,20 @@
 
     <section id="attendance-list">
       <h2>The Attendance Table</h2>
+      <div class="controls-section">
+        <div class="search-control">
+          <label for="searchByName">Search by Name:</label>
+          <input type="text" id="searchByName" placeholder="Enter last name or first name...">
+        </div>
+        
+        <div class="sort-controls">
+          <button id="sortByAbsencesAsc">Sort by Absences (Ascending)</button>
+          <button id="sortByParticipationDesc">Sort by Participation (Descending)</button>
+        </div>
+        
+        <div id="sortMessage" class="sort-message"></div>
+      </div>
+
       <table border="1">
         <tr>
           <th rowspan="2">Last Name</th>
@@ -95,18 +107,18 @@
           <td class="message small"></td>
         </tr>
       </table>
+      
       <div class="highlight-controls">
-             <button id="highlightExcellentBtn">Highlight Excellent Students</button>
+        <button id="highlightExcellentBtn">Highlight Excellent Students</button>
         <button id="resetColorsBtn">Reset Colors</button>
-       </div>
-
-
-     <section id="Reports">
-      <div class="report-section">
-        <button id="showReportBtn">Show Report</button>
-        <canvas id="reportChart" width="400" height="200" style="display:none;"></canvas>
       </div>
-    </section>
+
+      <section id="Reports">
+        <div class="report-section">
+          <button id="showReportBtn">Show Report</button>
+          <canvas id="reportChart" width="400" height="200" style="display:none;"></canvas>
+        </div>
+      </section>
     </section>
 
     <section id="add-Student">
