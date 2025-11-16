@@ -409,6 +409,39 @@ if (showReportBtn) {
         reportChart = new Chart(reportCanvas, config);
     });
 }
+$("#showReport").on("click", function() {
+    
+    let total = $("#attendanceTable tbody tr").length;
+    let presentCount = 0, participatedCount = 0;
+  
+    $("#attendanceTable tbody tr").each(function() {
+      let pres = 0, part = 0;
+      $(this).find("input.present:checked").each(() => pres++);
+      $(this).find("input.part:checked").each(() => part++);
+      if (pres > 0) presentCount++;
+      if (part > 0) participatedCount++;
+      
+    });
+
+    $("#reportText").html(`
+      <p><strong>Total Students:</strong> ${total}</p>
+      <p><strong>Marked Present:</strong> ${presentCount}</p>
+      <p><strong>Participated:</strong> ${participatedCount}</p>
+    `);
+
+    new Chart(document.getElementById("reportChart"), {
+      type: "bar",
+      data: {
+        labels: ["Total", "Present", "Participated"],
+        datasets: [{
+          label: "Attendance Summary",
+          data: [total, presentCount, participatedCount],
+          backgroundColor: ["#ff99c8", "#b8f2e6", "#f6bd60"]
+        }]
+      },
+      options: { responsive: true }
+    });
+  });
 //  Exercise 5 
 $(document).ready(function() {
    
