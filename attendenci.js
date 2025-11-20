@@ -187,8 +187,7 @@ function initializeFormValidation() {
             ${Array(6).fill('<td><input class="present" type="checkbox"></td><td><input class="participate" type="checkbox"></td>').join('')}
             <td class="absences">0</td>
             <td class="participation num">0</td>
-            <td class="message small"></td>
-        `;
+            <td class="message small"></td>`;
 
       
         table.appendChild(newRow);
@@ -426,8 +425,7 @@ $("#showReport").on("click", function() {
     $("#reportText").html(`
       <p><strong>Total Students:</strong> ${total}</p>
       <p><strong>Marked Present:</strong> ${presentCount}</p>
-      <p><strong>Participated:</strong> ${participatedCount}</p>
-    `);
+      <p><strong>Participated:</strong> ${participatedCount}</p> `);
 
     new Chart(document.getElementById("reportChart"), {
       type: "bar",
