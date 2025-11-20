@@ -2,35 +2,46 @@
   margin:0;
   padding: 0;
 }
-nav{
-  background-color: rgb(58, 137, 202);
+
+header nav.navbar {
+  background-color: rgb(83, 135, 224) !important;
   padding: 15px;
 }
+
 .navbar{
   display: flex;
   justify-content: space-between;
   padding: 20px 50px;
 }
+
 .navbar a{
   color: rgb(244, 242, 242);
   text-decoration: none;
   font-size: 20px;
+  transition: color 0.3s ease;
 }
+
+.navbar a:hover {
+  color: #e0e0e0;
+  text-decoration: underline;
+}
+
 .contair h1{
    text-align: center;
    margin: 20px 0px;
    color: #2c3e50;
 }
+
 hr{
   width: 500px;
    margin: 0 auto;
 }
+
 #attendance-list h2{
   text-align: left;
   margin: 10px 15px;
   color: #2c3e50;
 }
-
 
 table{
       border-collapse: collapse;
@@ -39,57 +50,100 @@ table{
       margin: 20px 5px;
       color: #2c3e50;
       text-align: center;
-      
+}
 
-}
+/* FIXED FORM STYLES */
 .center h2{
-   margin: 10px 0;
+   margin: 20px 0;
    color: #2c3e50;
+   text-align: center;
+   font-size: 24px;
 }
+
 .center{
   display: flex;
   justify-content: center;
+  margin: 30px 0;
+  width: 100%;
 }
-.form{
- position:absolute;
- background-color: rgb(228, 244, 239);
- width: 98%;
- padding: 20px ;
- border: 1px solid #423535;
- border-radius: 10px;
- box-sizing: border-box;
- 
-}
-.form input{
 
-  height: 40px;
-  width: 80%;
-  border-radius: 1px solid silver;
-  margin-top: 20px;
-  border: none;
-  border-radius: 3px;
+.form{
+  background-color: rgb(228, 244, 239);
+  width: 90%;
+  max-width: 500px;
+  padding: 30px;
+  border: 2px solid #d1d1d1;
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin: 20px auto;
+  position: relative; /* Changed from absolute */
 }
-input[type="text"],input[type="email"] { 
+
+.form label{
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.form input{
+  height: 45px;
+  width: 100%;
+  border: 2px solid #ddd;
+  margin-top: 5px;
+  border-radius: 6px;
+  padding: 0 15px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+input[type="text"], input[type="email"] { 
   padding: 12px 15px;
-            
-        }
-button{
-  font-size: 20px;
+}
+
+/* Improved Button Styles */
+.form button{
+  font-size: 18px;
   border: none;
   color: white;
-  border-radius: 3px;
-  background-color: rgb(67, 150, 237);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
   height: 50px;
-  width: 80%;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  margin-top: 25px;
 }
-button:hover {
-  background-color: #7ab1eb;
+
+.form button:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
+
+.form button:active {
+  transform: translateY(0);
+}
+
+/* Improved Error/Success Messages */
 .error-message {
     color: #dc3545;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 5px;
-    min-height: 18px;
+    min-height: 20px;
+    font-weight: 500;
 }
 
 .form input.invalid {
@@ -98,12 +152,14 @@ button:hover {
 }
 
 .form input.valid {
-    border: 2px solid #82ea9b !important;
+    border: 2px solid #28a745 !important;
+    background-color: #d4edda;
 }
 
 .form div {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
+
 .status-good {
   background-color: #d4edda;
 }
@@ -123,6 +179,7 @@ button:hover {
 .message.small {
   font-size: 12px;
 }
+
 .report-section {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -132,15 +189,19 @@ button:hover {
 #showReportBtn {
   background-color: #007bff;
   color: white;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 #showReportBtn:hover {
-  background-color: #7ab1eb;
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
+
 #attendance-list table tr {
   transition: background-color 0.3s ease;
   cursor: pointer;
@@ -149,6 +210,7 @@ button:hover {
 #attendance-list table tr:hover {
   background-color: #e8f5e9;
 }
+
 .highlight-controls {
   text-align: center;
   margin-top: 20px;
@@ -159,124 +221,205 @@ button:hover {
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 14px;
 }
 
 .highlight-controls button:hover {
   background-color: #0056b3;
+  transform: translateY(-2px);
 }
-
 
 /* Exercise 7 Styles */
 .controls-section {
     margin: 20px 0;
-    padding: 15px;
+    padding: 20px;
     background-color: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #dee2e6;
 }
 
 .search-control {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .search-control label {
     font-weight: bold;
     margin-right: 10px;
     color: #495057;
+    font-size: 16px;
 }
 
 #searchByName {
-    padding: 8px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    width: 300px;
-    font-size: 14px;
+    padding: 12px 15px;
+    border: 2px solid #ced4da;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
 #searchByName:focus {
     outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(99, 152, 210, 0.25);
+    box-shadow: 0 0 0 3px rgba(99, 152, 210, 0.25);
 }
 
 .sort-controls {
-    margin-bottom: 15px;
-    width: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .sort-controls button {
-    padding: 5px 7px;
-    margin-right: 10px;
-    background-color: #589edb;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #589edb, #4a8bc2);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
 }
 
 .sort-controls button:hover {
-    background-color: #5a6268;
+    background: linear-gradient(135deg, #4a8bc2, #3a7ab0);
+    transform: translateY(-2px);
 }
 
 .sort-controls button:active {
-    transform: translateY(1px);
+    transform: translateY(0);
 }
 
 .sort-message {
-    padding: 10px;
+    padding: 15px;
     background-color: #e7f3ff;
-    border: 1px solid #b3d9ff;
-    border-radius: 4px;
+    border: 2px solid #b3d9ff;
+    border-radius: 6px;
     color: #0066cc;
     font-weight: bold;
     display: none;
+    margin-top: 10px;
 }
 
 .highlight-controls {
-    margin: 15px 0;
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .highlight-controls button {
-    padding: 8px 16px;
-    margin-right: 10px;
-    background-color: #17a2b8;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #17a2b8, #138496);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    min-width: 180px;
 }
 
 .highlight-controls button:hover {
-    background-color: #138496;
+    background: linear-gradient(135deg, #138496, #117a8b);
+    transform: translateY(-2px);
 }
 
 #resetColorsBtn {
-    background-color: #6c757d;
+    background: linear-gradient(135deg, #6c757d, #5a6268) !important;
 }
-
-
 
 #resetColorsBtn:hover {
-    background-color: #5a6268;
+    background: linear-gradient(135deg, #5a6268, #495056) !important;
 }
 
- @media (max-width: 768px) {
-            .navbar a {
-                display: block;
-                margin: 5px 0;
-                text-align: center;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-        }
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .navbar a {
+        display: block;
+        margin: 5px 0;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+        font-size: 14px;
+    }
+    
+    .form {
+        margin: 10px;
+        padding: 20px;
+        width: 85%;
+    }
+    
+    .sort-controls {
+        flex-direction: column;
+    }
+    
+    .sort-controls button {
+        min-width: 100%;
+    }
+    
+    .highlight-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .highlight-controls button {
+        min-width: 100%;
+        max-width: 300px;
+    }
+    
+    .controls-section {
+        padding: 15px;
+    }
+    
+    .form input {
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    hr {
+        width: 90%;
+    }
+}
+
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form {
+    animation: fadeIn 0.5s ease-out;
+}
+
+
+.form input:focus,
+button:focus,
+#searchByName:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
