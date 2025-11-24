@@ -1,15 +1,18 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require_once "db_connect.php";
+
 $student_id = $name = $group = '';
 $errors = [];
 $success_message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_id = trim($_POST['student_id'] ?? '');
     $name = trim($_POST['name'] ?? '');
     $group = trim($_POST['group'] ?? '');
     
+    // Validation (garder votre validation existante)
     if (empty($student_id)) {
         $errors['student_id'] = 'Student ID is required.';
     } elseif (!is_numeric($student_id)) {
@@ -27,45 +30,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if (empty($errors)) {
-        $json_file = 'students.json';
-        $students = [];
+        $conn = connectDB();
         
-        if (file_exists($json_file)) {
-            $json_data = file_get_contents($json_file);
-            if ($json_data !== false) {
-                $students = json_decode($json_data, true) ?: [];
-            }
-        }
-        
-        $student_exists = false;
-        foreach ($students as $student) {
-            if (isset($student['student_id']) && $student['student_id'] == $student_id) {
-                $student_exists = true;
-                break;
-            }
-        }
-        
-        if ($student_exists) {
-            $errors['student_id'] = 'Student ID already exists.';
+        if (!$conn) {
+            $errors['general'] = 'Database connection failed.';
         } else {
-            $new_student = [
-                'student_id' => $student_id,
-                'name' => $name,
-                'group' => $group,
-                'added_date' => date('Y-m-d H:i:s')
-            ];
-            
-            $students[] = $new_student;
-            
-            $result = file_put_contents($json_file, json_encode($students, JSON_PRETTY_PRINT));
-            
-            if ($result !== false) {
-                $success_message = 'Student added successfully!';
-                $student_id = $name = $group = '';
-            } else {
-                $errors['general'] = 'Error saving student data. Please check file permissions.';
+            try {
+                // Vérifier si l'ID étudiant existe déjà
+                $check_stmt = $conn->prepare("SELECT student_id FROM students WHERE student_id = ?");
+                $check_stmt->execute([$student_id]);
+                
+                if ($check_stmt->fetch()) {
+                    $errors['student_id'] = 'Student ID already exists.';
+                } else {
+                    // Insérer le nouvel étudiant
+                    $insert_stmt = $conn->prepare("INSERT INTO students (student_id, name, group_name) VALUES (?, ?, ?)");
+                    $result = $insert_stmt->execute([$student_id, $name, $group]);
+                    
+                    if ($result) {
+                        $success_message = 'Student added successfully to database!';
+                        $student_id = $name = $group = '';
+                    } else {
+                        $errors['general'] = 'Error saving student data to database.';
+                    }
+                }
+            } catch (PDOException $e) {
+                $errors['general'] = 'Database error: ' . $e->getMessage();
             }
         }
+    }
+}
+
+// Récupérer les étudiants depuis la base de données pour l'affichage
+$students = [];
+$conn = connectDB();
+if ($conn) {
+    try {
+        $stmt = $conn->query("SELECT student_id, name, group_name FROM students ORDER BY student_id");
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // En cas d'erreur, on garde le tableau vide
     }
 }
 ?>
@@ -77,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
     <style>
+        /* Garder votre CSS existant */
         body {
             font-family: Arial, sans-serif;
             max-width: 600px;
@@ -200,22 +205,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <a href="attendenci.html" class="back-link">← Back to Attendance System</a>
         
-        <?php
-        if (file_exists('students.json')) {
-            $data = file_get_contents('students.json');
-            $students = json_decode($data, true);
-            if ($students && count($students) > 0) {
-                echo '<div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">';
-                echo '<h3>Existing Students (' . count($students) . ')</h3>';
-                foreach ($students as $student) {
-                    echo '<p>ID: ' . htmlspecialchars($student['student_id']) . ' - ' . 
-                         htmlspecialchars($student['name']) . ' (' . 
-                         htmlspecialchars($student['group']) . ')</p>';
-                }
-                echo '</div>';
-            }
-        }
-        ?>
+        <?php if (count($students) > 0): ?>
+            <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                <h3>Existing Students (<?php echo count($students); ?>)</h3>
+                <?php foreach ($students as $student): ?>
+                    <p>ID: <?php echo htmlspecialchars($student['student_id']); ?> - 
+                       <?php echo htmlspecialchars($student['name']); ?> (<?php echo htmlspecialchars($student['group_name']); ?>)</p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>
