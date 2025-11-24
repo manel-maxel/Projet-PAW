@@ -8,7 +8,9 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: url(5845764194727300237_120.jpg)no-repeat center center;
+   background-size: cover;
+    filter: brightness(1.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +23,7 @@ body {
 }
 
 .loginform {
-  background: rgba(255, 255, 255, 0.95);
+  background: #ffffff; 
   backdrop-filter: blur(20px);
   padding: 40px 35px;
   border-radius: 20px;
@@ -29,7 +31,11 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+
 .form-box {
+   border-radius: 20px;
+  padding: 40px 35px;
+   background: #ffffff; 
   display: none;
   animation: fadeInUp 0.4s ease;
 }
@@ -79,11 +85,11 @@ form h2::after {
 .inputgroup select {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #060606;
   border-radius: 12px;
   font-size: 15px;
-  background: #fff;
-  color: #2d3748;
+  background: #ffffff;
+  color: #7192ca;
   transition: .3s;
 }
 

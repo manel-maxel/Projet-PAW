@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $group = trim($_POST['group'] ?? '');
     
-    // Validation (garder votre validation existante)
     if (empty($student_id)) {
         $errors['student_id'] = 'Student ID is required.';
     } elseif (!is_numeric($student_id)) {
