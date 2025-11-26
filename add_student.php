@@ -35,14 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors['general'] = 'Database connection failed.';
         } else {
             try {
-                // Vérifier si l'ID étudiant existe déjà
                 $check_stmt = $conn->prepare("SELECT student_id FROM students WHERE student_id = ?");
                 $check_stmt->execute([$student_id]);
                 
                 if ($check_stmt->fetch()) {
                     $errors['student_id'] = 'Student ID already exists.';
                 } else {
-                    // Insérer le nouvel étudiant
                     $insert_stmt = $conn->prepare("INSERT INTO students (student_id, name, group_name) VALUES (?, ?, ?)");
                     $result = $insert_stmt->execute([$student_id, $name, $group]);
                     
@@ -59,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-// Récupérer les étudiants depuis la base de données pour l'affichage
 $students = [];
 $conn = connectDB();
 if ($conn) {
@@ -68,7 +64,6 @@ if ($conn) {
         $stmt = $conn->query("SELECT student_id, name, group_name FROM students ORDER BY student_id");
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        // En cas d'erreur, on garde le tableau vide
     }
 }
 ?>
@@ -80,7 +75,6 @@ if ($conn) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
     <style>
-        /* Garder votre CSS existant */
         body {
             font-family: Arial, sans-serif;
             max-width: 600px;

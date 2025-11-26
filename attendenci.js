@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initializeFormValidation();
 });
-
-// pour calculer la presence et la participation
 function initializeAttendanceSystem() {
     const TOTAL_SESSIONS = 6;
 
