@@ -1,6 +1,6 @@
 <?php
 session_start();
-echo "<h1>Bienvenue Professeur " . ($_SESSION['name'] ?? '') . "!</h1>";
-echo "<p>Cette page est en construction.</p>";
-echo "<a href='login.php'>Retour à la connexion</a>";
+include "header/header.php";
 ?>
+
+<h1>Welcome Professor</h1>
