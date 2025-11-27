@@ -2,14 +2,12 @@
 session_start();
 require_once "config.php";
 
-// -------- REGISTER --------
 if (isset($_POST['register'])) {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
 
-    // Check if email exists
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -32,7 +30,6 @@ if (isset($_POST['register'])) {
     exit();
 }
 
-// -------- LOGIN --------
 if (isset($_POST['login'])) {
     $email = trim($_POST['login_email']);
     $password = $_POST['login_password'];
@@ -49,16 +46,15 @@ if (isset($_POST['login'])) {
             $_SESSION['name'] = $user['name'];
             $_SESSION['email'] = $user['email'];
 
-            // Role-based session
             if ($user['role'] === 'student') {
                 $_SESSION['student_id'] = $user['id'];
-                header("Location: ../student_home.php");
+                header("Location: ../student_page.php");
             } elseif ($user['role'] === 'professor') {
                 $_SESSION['professor_id'] = $user['id'];
                 header("Location: ../professor_page.php");
             } else { 
                 $_SESSION['administrator_id'] = $user['id'];
-                header("Location: ../administrator_add_course.php");
+                header("Location: ../administrator_page.php");
             }
             exit();
         }

@@ -27,7 +27,35 @@ $conn->close();
 <meta charset="UTF-8">
 <title>Student Home</title>
 <link href="/header/header.css" rel="stylesheet">
+<style>
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
+.course-table th, .course-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.course-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.course-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.course-table tr:hover {
+    background-color: #e6f7ff;
+}
+
+h1, h2 {
+    margin-left: 20px;
+}
+</style>
 </head>
 <body>
 
@@ -36,18 +64,28 @@ $conn->close();
 <h1>Welcome, <?= htmlspecialchars($_SESSION['name']); ?></h1>
 <h2>Your Enrolled Courses:</h2>
 
-<ul class="course-list">
 <?php if (!empty($courses)): ?>
-    <?php foreach ($courses as $course): ?>
-        <li class="course-item">
-            <strong><?= htmlspecialchars($course['title']); ?></strong><br>
-            <?= htmlspecialchars($course['description']); ?>
-        </li>
-    <?php endforeach; ?>
+<table class="course-table">
+    <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($courses as $course): ?>
+        <tr>
+            <td><?= htmlspecialchars($course['id']); ?></td>
+            <td><?= htmlspecialchars($course['title']); ?></td>
+            <td><?= htmlspecialchars($course['description']); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 <?php else: ?>
-    <li>You are not enrolled in any courses yet.</li>
+<p style="margin-left:20px;">You are not enrolled in any courses yet.</p>
 <?php endif; ?>
-</ul>
 
 </body>
 </html>

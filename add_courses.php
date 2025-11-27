@@ -1,10 +1,14 @@
 <?php
 session_start();
 require_once "config.php";
+
+
 if (!isset($_SESSION['administrator_id'])) {
     header("Location: LOGIN/login.php");
     exit();
 }
+
+
 if (isset($_POST['add_course'])) {
     $title = $_POST['title'];
     $description = $_POST['description'];

@@ -11,35 +11,74 @@ if (!isset($_SESSION['administrator_id'])) {
 <head>
 <meta charset="UTF-8">
 <title>Administrator Dashboard</title>
-<link href="header/header.css" rel="stylesheet">
+<link href="/header/header.css" rel="stylesheet">
 <style>
-body { font-family: 'Poppins', sans-serif; padding: 20px; background: #f9f9f9; }
-h1 { margin-bottom: 20px; }
-.dashboard { display: flex; gap: 20px; }
-.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; width: 200px; }
-.card a { text-decoration: none; color: white; background: #3498db; padding: 10px 15px; display: inline-block; border-radius: 5px; margin-top: 10px; }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .dashboard-container {
+        display: flex;
+        justify-content: center;   
+        gap: 50px;                
+        margin-top: 40px;
+    }
+
+    .card {
+        width: 220px;
+        background: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+        display: inline-block;
+        background: #007BFF;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .btn:hover {
+        background: #0056b3;
+    }
 </style>
 </head>
+
 <body>
+<?php include 'header/header.php'; ?>
+<h1>Administrator Dashboard</h1>
 
-<?php include "header/header.php"; ?>
+<div class="dashboard-container">
 
-<h1>Welcome, <?= htmlspecialchars($_SESSION['name']); ?>!</h1>
-<h2>Administrator Dashboard</h2>
+    <div class="card">
+        <h2>Add Course</h2>
+        <a href="administrator_add_course.php" class="btn">Go</a>
+    </div>
 
-<div class="dashboard">
     <div class="card">
-        <h3>Add Course</h3>
-        <a href="administrator_add_course.php">Go</a>
+        <h2>View Courses</h2>
+        <a href="administrator_view_courses.php" class="btn">Go</a>
     </div>
+
     <div class="card">
-        <h3>View Courses</h3>
-        <a href="administrator_view_courses.php">Go</a>
+        <h2>Enroll Students</h2>
+        <a href="administrator_enroll.php" class="btn">Go</a>
     </div>
-    <div class="card">
-        <h3>Enroll Students</h3>
-        <a href="administrator_enroll_students.php">Go</a>
-    </div>
+
 </div>
 
 </body>

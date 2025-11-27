@@ -14,8 +14,6 @@ function initializeAttendanceSystem() {
         const presentCheckboxes = row.querySelectorAll('input.present');
         const participateCheckboxes = row.querySelectorAll('input.participate');
         
-       /* console.log('Found present checkboxes:', presentCheckboxes.length);
-        console.log('Found participate checkboxes:', participateCheckboxes.length);*/
 
         let presentCount = 0;
         let participateCount = 0;

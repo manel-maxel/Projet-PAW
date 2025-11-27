@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 $students = [];
 $conn = connectDB();
 if ($conn) {
@@ -75,6 +76,7 @@ if ($conn) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             max-width: 600px;
