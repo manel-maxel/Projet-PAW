@@ -1,34 +1,42 @@
 <?php
 session_start();
 if (!isset($_SESSION['student_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 
-require_once "LOGIN/config.php";
+require_once "../LOGIN/config.php";
 
 $student_id = $_SESSION['student_id'];
 
+// get the student's group
+$stmt = $conn->prepare("SELECT user_group, name FROM users WHERE id = ?");
+$stmt->bind_param("i", $student_id);
+$stmt->execute();
+$user_result = $stmt->get_result();
+$user = $user_result->fetch_assoc();
+$student_group = $user['user_group'];
+$student_name = $user['name'];
 $sql = "
     SELECT 
         s.id AS session_id,
         s.course_name,
         s.session_type,
         s.time,
+        s.session_group,
         a.status AS attendance_status,
         j.status AS justification_status,
         j.justification_text
-    FROM enrollments e
-    INNER JOIN sessions s ON e.session_id = s.id
-    LEFT JOIN attendance a ON a.session_id = s.id AND a.student_id = e.student_id
-    LEFT JOIN justifications j ON j.session_id = s.id AND j.student_id = e.student_id
-    WHERE e.student_id = ?
+    FROM attendance a
+    INNER JOIN sessions s ON a.session_id = s.id
+    LEFT JOIN justifications j ON j.session_id = s.id AND j.student_id = a.student_id
+    WHERE a.student_id = ?
+      AND s.session_group = ?
     ORDER BY s.time DESC
 ";
 
-
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $student_id);
+$stmt->bind_param("is", $student_id, $student_group);
 $stmt->execute();
 $result = $stmt->get_result();
 $attendances = $result->fetch_all(MYSQLI_ASSOC);
@@ -41,7 +49,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <title>My Attendance</title>
-<link href="/header/header.css" rel="stylesheet">
+<link href="../header/header.css" rel="stylesheet">
 <style>
 table { width: 90%; margin: 20px auto; border-collapse: collapse; }
 th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
@@ -53,9 +61,9 @@ form { margin: 0; }
 </head>
 <body>
 
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 
-<h1 style="text-align:center;">My Attendance</h1>
+<h1 style="text-align:center;">My Attendance (Group: <?= htmlspecialchars($student_group) ?>)</h1>
 
 <?php if(!empty($attendances)): ?>
 <table>
@@ -95,7 +103,7 @@ form { margin: 0; }
     </tbody>
 </table>
 <?php else: ?>
-<p style="text-align:center;">No attendance records found.</p>
+<p style="text-align:center;">No attendance records found for your group.</p>
 <?php endif; ?>
 
 </body>

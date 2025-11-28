@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "LOGIN/config.php";
+require_once "../LOGIN/config.php";
 
 if (!isset($_SESSION['administrator_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 //number of student
@@ -46,7 +46,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <title>Administrator Statistics</title>
-<link href="/header/header.css" rel="stylesheet">
+<link href="../header/header.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 h1 { text-align:center; margin-top:30px; }

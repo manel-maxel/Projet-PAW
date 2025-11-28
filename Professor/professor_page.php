@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 ?>
@@ -11,7 +11,7 @@ if (!isset($_SESSION['professor_id'])) {
 <html>
 <head>
     <title>Professor Page</title>
-    <link href="/header/header.css" rel="stylesheet">
+    <link href="../header/header.css" rel="stylesheet">
     <style>
        <style>
     body {
@@ -60,7 +60,7 @@ if (!isset($_SESSION['professor_id'])) {
 </head>
 
 <body>
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 <h1>Professor Dashboard</h1>
 
 <div class="dashboard-container">
@@ -79,7 +79,11 @@ if (!isset($_SESSION['professor_id'])) {
         <h2>Attendance Summary</h2>
         <a href="attendance_summary.php" class="btn">Go</a>
     </div>
-
+   
+    <div class="card">
+        <h2>View Today's Attendance</h2>
+        <a href="attendance_today.php" class="btn">Go</a>
+    </div>
 
 </body>
 </html>

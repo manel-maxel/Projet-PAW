@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "LOGIN/config.php";
+require_once "../LOGIN/config.php";
 
 if (!isset($_SESSION['student_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 

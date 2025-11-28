@@ -7,7 +7,9 @@ if (isset($_POST['register'])) {
     $email = trim($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
+    $user_group = ($role === 'student') ? trim($_POST['group']) : NULL;
 
+    //if email already exists
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -17,8 +19,9 @@ if (isset($_POST['register'])) {
         $_SESSION['register_error'] = 'Email is already registered!';
         $_SESSION['active_form'] = 'register';
     } else {
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $name, $email, $password, $role);
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, user_group) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $name, $email, $password, $role, $user_group);
+
         if ($stmt->execute()) {
             $_SESSION['register_success'] = "Registration successful! You can now log in.";
         } else {
@@ -26,6 +29,7 @@ if (isset($_POST['register'])) {
             $_SESSION['active_form'] = 'register';
         }
     }
+
     header("Location: login.php");
     exit();
 }
@@ -48,13 +52,14 @@ if (isset($_POST['login'])) {
 
             if ($user['role'] === 'student') {
                 $_SESSION['student_id'] = $user['id'];
-                header("Location: ../student_page.php");
+                $_SESSION['student_group'] = $user['user_group'];
+                header("Location: ../Student/student_page.php");
             } elseif ($user['role'] === 'professor') {
                 $_SESSION['professor_id'] = $user['id'];
-                header("Location: ../professor_page.php");
+                header("Location: ../Professor/professor_page.php");
             } else { 
                 $_SESSION['administrator_id'] = $user['id'];
-                header("Location: ../administrator_page.php");
+                header("Location: ../Administrator/administrator_page.php");
             }
             exit();
         }
@@ -65,3 +70,4 @@ if (isset($_POST['login'])) {
     header("Location: login.php");
     exit();
 }
+?>

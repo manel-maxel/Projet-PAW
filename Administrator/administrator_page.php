@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['administrator_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 ?>
@@ -10,7 +10,7 @@ if (!isset($_SESSION['administrator_id'])) {
 <head>
 <meta charset="UTF-8">
 <title>Administrator Dashboard</title>
-<link href="/header/header.css" rel="stylesheet">
+<link href="../header/header.css" rel="stylesheet">
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@ if (!isset($_SESSION['administrator_id'])) {
 </head>
 
 <body>
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 <h1>Administrator Dashboard</h1>
 
 <div class="dashboard-container">

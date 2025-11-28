@@ -1,32 +1,35 @@
 <?php
 session_start();
-require_once "LOGIN/config.php";
-include "header/header.php";
+require_once "../LOGIN/config.php";
+include "../header/header.php";
 
 if (!isset($_SESSION['administrator_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 
 $professors = $conn->query("SELECT id, name FROM users WHERE role='professor'");
 
 if (isset($_POST['add_session'])) {
-    $course_name = trim($_POST['course_name']);
-    $session_type = $_POST['session_type'];
-    $day_of_week = $_POST['day_of_week']; 
-    $time_input = $_POST['time']; 
-    $professor_id = $_POST['professor_id'];
+    $course_name    = trim($_POST['course_name']);
+    $session_type   = $_POST['session_type'];
+    $day_of_week    = $_POST['day_of_week'];
+    $time_input     = $_POST['time'];
+    $professor_id   = $_POST['professor_id'];
+    $session_group  = trim($_POST['session_group'] ?? '');
 
-    $today = date("Y-m-d");
     $datetime = date("Y-m-d H:i:s", strtotime("next $day_of_week $time_input"));
 
-    $stmt = $conn->prepare("INSERT INTO sessions (course_name, session_type, time, professor_id) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $course_name, $session_type, $datetime, $professor_id);
+    $stmt = $conn->prepare("
+        INSERT INTO sessions (course_name, session_type, time, professor_id, session_group)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("sssis", $course_name, $session_type, $datetime, $professor_id, $session_group);
 
     if ($stmt->execute()) {
         $message = "Session added successfully!";
     } else {
-        $message = "Error adding session.";
+        $message = "Error adding session: " . $stmt->error;
     }
 }
 
@@ -42,10 +45,11 @@ $sessions = $conn->query("
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../header/header.css">
+
 <title>Add Session</title>
 <style>
-
-body { font-family: Arial, sans-serif; background: #eef2f7; margin:0; padding:0; }
+body { background: #eef2f7;}
 .page-container { width: 90%; max-width: 1000px; margin: 40px auto; }
 .session-form { background: white; padding: 25px; border-radius: 12px; max-width: 500px; margin: 0 auto 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .session-form h2 { text-align:center; margin-bottom:20px; color:#34495e; }
@@ -62,7 +66,6 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
 </style>
 </head>
 <body>
-
 <div class="page-container">
 
     <form method="POST" class="session-form">
@@ -101,6 +104,9 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <?php endwhile; ?>
         </select>
 
+        <label>Group:</label>
+        <input type="text" name="session_group" placeholder="Enter group(s)">
+
         <button type="submit" name="add_session">Add Session</button>
     </form>
 
@@ -115,6 +121,7 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <th>Course</th>
             <th>Type</th>
             <th>Professor</th>
+            <th>Group</th>
             <th>Day & Time</th>
         </tr>
         <?php while ($row = $sessions->fetch_assoc()): ?>
@@ -122,8 +129,9 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <td><?= $row['id'] ?></td>
             <td><?= htmlspecialchars($row['course_name']) ?></td>
             <td><?= htmlspecialchars($row['session_type']) ?></td>
-            <td><?= htmlspecialchars($row['professor_name'] ? $row['professor_name'] : "Not Assigned") ?></td>
-            <td><?= date("l H:i", strtotime($row['time'])) ?></td> <!-- Display weekday name + time -->
+            <td><?= htmlspecialchars($row['professor_name'] ?: "Not Assigned") ?></td>
+            <td><?= htmlspecialchars($row['session_group'] ?: "-") ?></td>
+            <td><?= date("l H:i", strtotime($row['time'])) ?></td>
         </tr>
         <?php endwhile; ?>
     </table>

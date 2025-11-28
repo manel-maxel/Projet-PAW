@@ -1,15 +1,15 @@
 <?php
 session_start();
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 
-require_once "LOGIN/config.php";
+require_once "../LOGIN/config.php";
 
 $professor_id = $_SESSION['professor_id'];
 
-$sql = "SELECT course_name, session_type, time
+$sql = "SELECT course_name, session_type, time, session_group
         FROM sessions
         WHERE professor_id = ?
         ORDER BY course_name, time";
@@ -28,7 +28,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <title>Professeur - Mes Séances</title>
-<link href="/header/header.css" rel="stylesheet">
+<link href="../header/header.css" rel="stylesheet">
 <style>
 body { font-family: Arial; }
 .container { width: 90%; margin: 20px auto; }
@@ -40,7 +40,7 @@ body { font-family: Arial; }
 </style>
 </head>
 <body>
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 <div class="container">
 
 <h2>Vos Séances (CM / TD / TP)</h2>
@@ -48,7 +48,12 @@ body { font-family: Arial; }
 <?php if (!empty($sessions)): ?>
 <table class="session-table">
 <thead>
-<tr><th>Course</th><th>Type</th><th>Horaire</th></tr>
+<tr>
+    <th>Course</th>
+    <th>Type</th>
+    <th>Horaire</th>
+    <th>Groupes</th>
+</tr>
 </thead>
 <tbody>
 <?php foreach ($sessions as $s): ?>
@@ -56,6 +61,7 @@ body { font-family: Arial; }
 <td><?= htmlspecialchars($s['course_name']); ?></td>
 <td><?= htmlspecialchars($s['session_type']); ?></td>
 <td><?= htmlspecialchars($s['time']); ?></td>
+<td><?= htmlspecialchars($s['session_group']); ?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>

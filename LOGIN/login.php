@@ -32,18 +32,19 @@ function isActiveForm($formName, $activeForm) {
 </head>
 <body>
 <div class="container">
+
     <div class="form-box <?= isActiveForm('login', $activeForm); ?>" id="login-form">
         <form action="login_register.php" method="post">
             <h2>Login</h2>
             <?= showError($errors['login']); ?>
             <?= showSuccess($success); ?>
             <div class="inputgroup">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="login_email" placeholder="Enter your email" required>
+                <label for="login_email">Email Address</label>
+                <input type="email" id="login_email" name="login_email" placeholder="Enter your email" required>
             </div>
             <div class="inputgroup">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="login_password" placeholder="Enter your password" required>
+                <label for="login_password">Password</label>
+                <input type="password" id="login_password" name="login_password" placeholder="Enter your password" required>
             </div>
             <input type="hidden" name="login" value="1">
             <button type="submit" class="btnlgn">Login</button>
@@ -71,10 +72,15 @@ function isActiveForm($formName, $activeForm) {
             <div class="inputgroup">
                 <label for="role">Role</label>
                 <select name="role" id="role" required>
+                    <option value="">Select Role</option>
                     <option value="student">Student</option>
                     <option value="professor">Professor</option>
                     <option value="administrator">Administrator</option>
                 </select>
+            </div>
+            <div class="inputgroup" id="group-field" style="display: none;">
+                <label for="group">Group</label>
+                <input type="text" id="group" name="group" placeholder="Enter your group">
             </div>
             <button type="submit" name="register" class="btnlgn">Register</button>
             <p>Already have an account? <a href="#" id="show-login">Sign In</a></p>

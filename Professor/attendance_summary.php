@@ -1,15 +1,14 @@
 <?php
 session_start();
-require_once "LOGIN/config.php";
+require_once "../LOGIN/config.php";
 
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: LOGIN/login.php");
+    header("Location: ../LOGIN/login.php");
     exit();
 }
 
 $professor_id = $_SESSION['professor_id'];
 
-// Get all sessions of this professor
 $sql = "
     SELECT 
         s.id AS session_id,
@@ -40,7 +39,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <title>Attendance Summary</title>
-<link href="/header/header.css" rel="stylesheet">
+<link href="../header/header.css" rel="stylesheet">
 <style>
 table { width: 90%; margin: 20px auto; border-collapse: collapse; }
 th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
@@ -51,7 +50,7 @@ h1 { text-align: center; margin-top: 30px; }
 </head>
 <body>
 
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 
 <h1>Attendance Summary</h1>
 

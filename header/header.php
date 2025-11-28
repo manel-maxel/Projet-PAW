@@ -11,12 +11,12 @@ if (!isset($_SESSION['name'])) {
 
 <header>
     <div class="logo-title">
-        <img src='images/logo.png' alt='Logo'>
+        <img src='../images/logo.png' alt='Logo'>
         <h2>Attendance System</h2>
     </div>
 
     <div class="user-info">
         <span>👤 <?= $_SESSION['name']; ?></span>
-        <a href="./logout.php">Logout</a>
+        <a href="../logout.php">Logout</a>
     </div>
 </header>
