@@ -9,6 +9,7 @@ if (!isset($_SESSION['professor_id'])) {
 
 $professor_id = $_SESSION['professor_id'];
 
+// Get all sessions of this professor
 $sql = "
     SELECT 
         s.id AS session_id,

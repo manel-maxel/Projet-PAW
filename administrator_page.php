@@ -69,13 +69,13 @@ if (!isset($_SESSION['administrator_id'])) {
     </div>
 
     <div class="card">
-        <h2>View </br> Courses</h2>
-        <a href="administrator_view_courses.php" class="btn">Go</a>
+        <h2>Statistics Page</h2>
+        <a href="administrator_statistics_page.php" class="btn">Go</a>
     </div>
 
     <div class="card">
-        <h2>Enroll Students</h2>
-        <a href="administrator_enroll.php" class="btn">Go</a>
+        <h2>Student </br> List</h2>
+        <a href="student_list.php" class="btn">Go</a>
     </div>
 
 </div>
