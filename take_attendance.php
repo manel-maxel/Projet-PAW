@@ -1,159 +1,113 @@
 <?php
-require_once "db_connect.php";
+session_start();
+require_once "LOGIN/config.php";
 
-$conn = connectDB();
-$students = [];
-
-if ($conn) {
-    try {
-        $stmt = $conn->query("SELECT student_id, name, group_name FROM students ORDER BY name");
-        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Error fetching students: " . $e->getMessage());
-    }
-} else {
-    die("Database connection failed");
+if(!isset($_SESSION['professor_id'])){
+    header("Location: LOGIN/login.php");
+    exit();
 }
 
-$today = date("Y-m-d");
-$attendanceFile = "attendance_" . $today . ".json";
+$professor_id = $_SESSION['professor_id'];
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (file_exists($attendanceFile)) {
-        echo "<h3 style='color:red; text-align:center;'>Attendance for today has already been taken.</h3>";
-        exit;
-    }
-
-    $attendanceData = [];
-    foreach ($students as $student) {
-        $id = $student["student_id"];
-        $status = isset($_POST["status_$id"]) ? $_POST["status_$id"] : "absent";
-
-        $attendanceData[] = [
-            "student_id" => $id,
-            "name" => $student["name"],
-            "group" => $student["group_name"],
-            "status" => $status,
-            "date" => $today
-        ];
-    }
-    
-    file_put_contents($attendanceFile, json_encode($attendanceData, JSON_PRETTY_PRINT));
-    echo "<h3 style='color:green; text-align:center;'>Attendance saved successfully!</h3>";
+if(!isset($_GET['session_id'])){
+    echo "<h3 style='text-align:center;color:red;'>No session selected!</h3>";
     exit;
+}
+
+$session_id = intval($_GET['session_id']);
+
+$stmt = $conn->prepare("SELECT * FROM sessions WHERE id=? AND professor_id=?");
+$stmt->bind_param("ii", $session_id, $professor_id);
+$stmt->execute();
+$session_result = $stmt->get_result();
+if($session_result->num_rows == 0){
+    echo "<h3 style='text-align:center;color:red;'>This session does not belong to you!</h3>";
+    exit;
+}
+
+$stmt = $conn->prepare("
+    SELECT u.id, u.name
+    FROM users u
+    JOIN enrollments e ON e.student_id = u.id
+    WHERE e.session_id = ?
+");
+$stmt->bind_param("i", $session_id);
+$stmt->execute();
+$students = $stmt->get_result();
+
+$message = '';
+$today = date("Y-m-d");
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    foreach($students as $student){
+        $id = $student['id'];
+        $status = isset($_POST["status_$id"]) ? $_POST["status_$id"] : 'absent';
+
+        $stmt = $conn->prepare("
+            INSERT INTO attendance (student_id, session_id, status, date)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE status=VALUES(status)
+        ");
+        $stmt->bind_param("iiss", $id, $session_id, $status, $today);
+        $stmt->execute();
+    }
+
+    $message = "<div id='attendance-msg' style='text-align:center;color:green;margin:15px 0;'>Attendance saved successfully!</div>";
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Take Attendance</title>
+    <link href="/header/header.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
-        h2 {
-            text-align: center;
-            margin-top: 30px;
-            color: #333;
-        }
-        table {
-            margin: 30px auto;
-            border-collapse: collapse;
-            width: 80%;
-            background: #fff;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 15px;
-            text-align: center;
-        }
-        th {
-            background: #007bff;
-            color: white;
-            font-size: 18px;
-        }
-        tr:nth-child(even) {
-            background: #f7f7f7;
-        }
-        tr:hover {
-            background: #eaf6ea;
-        }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 12px 25px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-        label {
-            margin: 0 10px;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
+        body { background: #f0f2f5; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        table { border-collapse: collapse; width: 80%; margin: 20px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: center; border: 1px solid #ccc; }
+        th { background: #007bff; color: #fff; font-size: 16px; }
+        tr:hover { background: #eaf6ea; }
+        button { padding: 10px 20px; margin: 20px auto; display: block; background: #007bff; color: #fff; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #0056b3; transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-<h2>Take Attendance</h2>
+<?php include 'header/header.php'; ?>
 
-<?php if (file_exists($attendanceFile)): ?>
-    <h3 style='color:red; text-align:center;'>Attendance for today has already been taken.</h3>
-<?php else: ?>
-    <form method="POST">
-        <table>
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Group</th>
-                <th>Status</th>
-            </tr>
+<?= $message; ?>
 
-            <?php foreach ($students as $student): ?>
-                <tr>
-                    <td><?= htmlspecialchars($student["student_id"]) ?></td>
-                    <td><?= htmlspecialchars($student["name"]) ?></td>
-                    <td><?= htmlspecialchars($student["group_name"]) ?></td>
-                    <td>
-                        <label>
-                            <input type="radio" name="status_<?= $student["student_id"] ?>" value="present" required>
-                            Present
-                        </label>
-                        <label>
-                            <input type="radio" name="status_<?= $student["student_id"] ?>" value="absent">
-                            Absent
-                        </label>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-        <button type="submit">Save Attendance</button>
-    </form>
-<?php endif; ?>
+<h2 style="text-align:center; margin: 20px auto;">Take Attendance for Session ID: <?= $session_id ?></h2>
 
-<a href="attendenci.html" class="back-link">← Back to Attendance System</a>
+<form method="POST">
+    <table>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+        <?php foreach($students as $student): ?>
+        <tr>
+            <td><?= $student['id'] ?></td>
+            <td><?= htmlspecialchars($student['name']) ?></td>
+            <td>
+                <label><input type="radio" name="status_<?= $student['id'] ?>" value="present" required> Present</label>
+                <label><input type="radio" name="status_<?= $student['id'] ?>" value="absent"> Absent</label>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <button type="submit">Save Attendance</button>
+</form>
+
+<script>
+    const msg = document.getElementById('attendance-msg');
+    if(msg){
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 3000);
+    }
+</script>
 
 </body>
 </html>

@@ -9,13 +9,19 @@ require_once "LOGIN/config.php";
 
 $student_id = $_SESSION['student_id'];
 
-
-$sql = "SELECT s.course_name, s.session_type, s.time, u.name AS professor_name
-        FROM enrollments e
-        JOIN sessions s ON s.course_name = e.course_name
-        JOIN users u ON s.professor_id = u.id
-        WHERE e.student_id = ?
-        ORDER BY s.course_name, s.time";
+$sql = "
+    SELECT 
+        s.id AS session_id,
+        s.course_name,
+        s.session_type,
+        s.time,
+        u.name AS professor_name
+    FROM enrollments e
+    INNER JOIN sessions s ON e.session_id = s.id
+    LEFT JOIN users u ON s.professor_id = u.id
+    WHERE e.student_id = ?
+    ORDER BY s.time
+";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $student_id);
@@ -24,49 +30,83 @@ $result = $stmt->get_result();
 $sessions = $result->fetch_all(MYSQLI_ASSOC);
 
 $conn->close();
-?>
 
+?>
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Student Home</title>
+<title>Student Dashboard</title>
 <link href="/header/header.css" rel="stylesheet">
 <style>
-body { font-family: Arial; }
-.container { width: 90%; margin: 20px auto; }
-.session-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.session-table th, .session-table td { padding: 12px; border: 1px solid #ddd; }
-.session-table th { background: #f0f0f0; text-align: left; }
-.session-table tr:nth-child(even) { background: #fafafa; }
-.empty { background: #fff3cd; padding: 15px; border: 1px solid #ffeeba; border-radius:5px; }
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+th {
+    background: #f2f2f2;
+}
+ .presence
+ {
+        width: 220px;
+        background: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+        display: inline-block;
+        background: #007BFF;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 10px;
+        font-size: 18px;
+    }
 </style>
 </head>
 <body>
+
 <?php include 'header/header.php'; ?>
-<div class="container">
-<h1>Bienvenue, <?= htmlspecialchars($_SESSION['name']); ?></h1>
-<h2>Vos Séances (CM / TD / TP)</h2>
+
+<h1 style="margin-left:20px;">Welcome, <?= htmlspecialchars($_SESSION['name']); ?></h1>
+<h2 style="margin-left:20px;">Your Sessions:</h2>
 
 <?php if (!empty($sessions)): ?>
-<table class="session-table">
-<thead>
-<tr><th>Professeur</th><th>Course</th><th>Type</th><th>Horaire</th></tr>
-</thead>
-<tbody>
-<?php foreach ($sessions as $s): ?>
-<tr>
-<td><?= htmlspecialchars($s['professor_name']); ?></td>
-<td><?= htmlspecialchars($s['course_name']); ?></td>
-<td><?= htmlspecialchars($s['session_type']); ?></td>
-<td><?= htmlspecialchars($s['time']); ?></td>
-</tr>
-<?php endforeach; ?>
-</tbody>
+<table>
+    <thead>
+        <tr>
+            <th>Session Name</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>Professor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($sessions as $s): ?>
+        <tr>
+            <td><?= htmlspecialchars($s['course_name']); ?></td>
+            <td><?= htmlspecialchars($s['session_type']); ?></td>
+            <td><?= htmlspecialchars($s['time']); ?></td>
+            <td><?= htmlspecialchars($s['professor_name']); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 <?php else: ?>
-<div class="empty">Vous n'êtes inscrit à aucune séance.</div>
+<p style="margin-left:20px;">You have no assigned sessions yet.</p>
 <?php endif; ?>
+<div class="presence">
+<h2>See presence</h2>
+   <a href="see_preseence.php" class="btn">Go</a>
 </div>
 </body>
 </html>

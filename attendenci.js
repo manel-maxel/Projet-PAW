@@ -185,7 +185,6 @@ function initializeFormValidation() {
             <td class="participation num">0</td>
             <td class="message small"></td>`;
 
-      
         table.appendChild(newRow);
 
        

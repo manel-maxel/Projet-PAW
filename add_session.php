@@ -104,12 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     </style>
-
 </head>
 <body>
-
 <?php include 'header/header.php'; ?>
-
 <div class="container">
     <h2>Ajouter une séance (TD / TP)</h2>
 

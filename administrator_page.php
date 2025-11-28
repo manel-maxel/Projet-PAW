@@ -5,7 +5,6 @@ if (!isset($_SESSION['administrator_id'])) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,12 +64,12 @@ if (!isset($_SESSION['administrator_id'])) {
 <div class="dashboard-container">
 
     <div class="card">
-        <h2>Add Course</h2>
+        <h2>Add </br> Course</h2>
         <a href="administrator_add_course.php" class="btn">Go</a>
     </div>
 
     <div class="card">
-        <h2>View Courses</h2>
+        <h2>View </br> Courses</h2>
         <a href="administrator_view_courses.php" class="btn">Go</a>
     </div>
 

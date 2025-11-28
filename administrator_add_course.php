@@ -10,15 +10,18 @@ if (!isset($_SESSION['administrator_id'])) {
 
 $professors = $conn->query("SELECT id, name FROM users WHERE role='professor'");
 
-
 if (isset($_POST['add_session'])) {
     $course_name = trim($_POST['course_name']);
     $session_type = $_POST['session_type'];
-    $time = $_POST['time'];
+    $day_of_week = $_POST['day_of_week']; 
+    $time_input = $_POST['time']; 
     $professor_id = $_POST['professor_id'];
 
+    $today = date("Y-m-d");
+    $datetime = date("Y-m-d H:i:s", strtotime("next $day_of_week $time_input"));
+
     $stmt = $conn->prepare("INSERT INTO sessions (course_name, session_type, time, professor_id) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $course_name, $session_type, $time, $professor_id);
+    $stmt->bind_param("sssi", $course_name, $session_type, $datetime, $professor_id);
 
     if ($stmt->execute()) {
         $message = "Session added successfully!";
@@ -41,10 +44,9 @@ $sessions = $conn->query("
 <meta charset="UTF-8">
 <title>Add Session</title>
 <style>
+
 body { font-family: Arial, sans-serif; background: #eef2f7; margin:0; padding:0; }
 .page-container { width: 90%; max-width: 1000px; margin: 40px auto; }
-
-
 .session-form { background: white; padding: 25px; border-radius: 12px; max-width: 500px; margin: 0 auto 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .session-form h2 { text-align:center; margin-bottom:20px; color:#34495e; }
 input, select { width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px; font-size:15px; transition:0.2s; }
@@ -52,7 +54,6 @@ input:focus, select:focus { border-color:#3498db; outline:none; box-shadow:0 0 5
 button { width:100%; padding:12px; background:#3498db; border:none; color:white; border-radius:6px; font-size:16px; cursor:pointer; transition:0.2s; }
 button:hover { background:#217dbb; }
 label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
-
 .sessions-table { width: 100%; border-collapse: collapse; margin-top: 30px; background:white; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1); table-layout: fixed; }
 .sessions-table th { text-align:center; background:#3498db; color:white; padding:12px; font-size:16px; }
 .sessions-table td { padding:12px; text-align:center; border-bottom:1px solid #eee; font-size:15px; }
@@ -77,7 +78,20 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <option value="TP">TP</option>
         </select>
 
-        <input type="datetime-local" name="time" required>
+        <label>Day of Week:</label>
+        <select name="day_of_week" required>
+            <option value="">-- Select Day --</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+
+        <label>Time:</label>
+        <input type="time" name="time" required>
 
         <label>Assign Professor:</label>
         <select name="professor_id" required>
@@ -101,7 +115,7 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <th>Course</th>
             <th>Type</th>
             <th>Professor</th>
-            <th>Time</th>
+            <th>Day & Time</th>
         </tr>
         <?php while ($row = $sessions->fetch_assoc()): ?>
         <tr>
@@ -109,7 +123,7 @@ label { font-weight:bold; margin-bottom:5px; display:block; color:#555; }
             <td><?= htmlspecialchars($row['course_name']) ?></td>
             <td><?= htmlspecialchars($row['session_type']) ?></td>
             <td><?= htmlspecialchars($row['professor_name'] ? $row['professor_name'] : "Not Assigned") ?></td>
-            <td><?= htmlspecialchars($row['time']) ?></td>
+            <td><?= date("l H:i", strtotime($row['time'])) ?></td> <!-- Display weekday name + time -->
         </tr>
         <?php endwhile; ?>
     </table>
