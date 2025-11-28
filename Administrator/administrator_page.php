@@ -77,6 +77,10 @@ if (!isset($_SESSION['administrator_id'])) {
         <h2>Student </br> List</h2>
         <a href="student_list.php" class="btn">Go</a>
     </div>
+    <div class="card">
+        <h2>Treat justification</h2>
+        <a href="administrator_justifications.php" class="btn">Go</a>
+    </div>
 
 </div>
 

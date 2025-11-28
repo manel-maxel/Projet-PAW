@@ -56,7 +56,7 @@ h1 { text-align:center; margin-top:30px; }
 </head>
 <body>
 
-<?php include 'header/header.php'; ?>
+<?php include '../header/header.php'; ?>
 
 <h1>Administrator Statistics</h1>
 

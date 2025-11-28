@@ -28,6 +28,7 @@ if($session_result->num_rows == 0){
 $session_info = $session_result->fetch_assoc();
 $session_group = $session_info['session_group'];
 
+// Get students of the group
 $stmt = $conn->prepare("
     SELECT u.id, u.name
     FROM users u
@@ -40,6 +41,7 @@ $students = $stmt->get_result();
 $message = '';
 $today = date("Y-m-d");
 
+// Handle form submission
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     foreach($students as $student){
         $id = $student['id'];
@@ -115,7 +117,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </form>
 
 <script>
-    // participation only if student is present
+    // Enable participation only if student is present
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.addEventListener('change', function(){
             const id = this.name.split('_')[1];

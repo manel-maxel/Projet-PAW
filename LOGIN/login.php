@@ -33,6 +33,7 @@ function isActiveForm($formName, $activeForm) {
 <body>
 <div class="container">
 
+    <!-- LOGIN FORM -->
     <div class="form-box <?= isActiveForm('login', $activeForm); ?>" id="login-form">
         <form action="login_register.php" method="post">
             <h2>Login</h2>

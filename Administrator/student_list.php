@@ -44,7 +44,7 @@ if (isset($_POST['export_students'])) {
 // Import Students (CSV only)
 if (isset($_POST['import_students']) && isset($_FILES['import_file'])) {
     $file = fopen($_FILES['import_file']['tmp_name'], 'r');
-    fgetcsv($file); 
+    fgetcsv($file); // skip header
     while (($data = fgetcsv($file)) !== FALSE) {
         $name = $data[0];
         $email = $data[1];
@@ -98,6 +98,7 @@ a:hover { text-decoration: underline; }
 
 <h1>Student List Management</h1>
 
+<!-- Add New Student -->
 <h2>Add New Student</h2>
 <form method="post">
     <input type="text" name="name" placeholder="Student Name" required>
@@ -107,6 +108,7 @@ a:hover { text-decoration: underline; }
     <button type="submit" name="add_student">Add Student</button>
 </form>
 
+<!-- Import / Export -->
 <h2>Import / Export Students</h2>
 <form method="post" enctype="multipart/form-data">
     <input type="file" name="import_file" accept=".csv" required>
@@ -117,6 +119,7 @@ a:hover { text-decoration: underline; }
     <button type="submit" name="export_students">Export Students</button>
 </form>
 
+<!-- Student Table -->
 <h2>Current Students</h2>
 <table>
 <tr>

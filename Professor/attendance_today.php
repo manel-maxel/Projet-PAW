@@ -99,7 +99,7 @@ if (isset($_GET['session_id'])) {
     </thead>
     <tbody>
         <?php 
-        //  JSON
+        // Reset pointer to start since we already fetched rows for JSON
         $attendance_data->data_seek(0);
         while ($row = $attendance_data->fetch_assoc()): ?>
         <tr>

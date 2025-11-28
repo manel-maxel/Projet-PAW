@@ -3,15 +3,19 @@ session_start();
 require_once "../LOGIN/config.php";
 include "../header/header.php";
 
+// Only admin can access
 if (!isset($_SESSION['administrator_id'])) {
     header("Location: ../LOGIN/login.php");
     exit();
 }
 
+// Get professors for dropdown
 $professors = $conn->query("SELECT id, name FROM users WHERE role='professor'");
 
+// Get distinct student groups for dropdown
 $groups_result = $conn->query("SELECT DISTINCT user_group FROM users WHERE role='student'");
 
+// Handle adding session
 if (isset($_POST['add_session'])) {
     $course_name = trim($_POST['course_name']);
     $session_type = $_POST['session_type'];
@@ -20,6 +24,7 @@ if (isset($_POST['add_session'])) {
     $professor_id = $_POST['professor_id'];
     $session_group = $_POST['session_group'] ?? '';
 
+    // Calculate next date for the selected day
     $datetime = date("Y-m-d H:i:s", strtotime("next $day_of_week $time_input"));
 
     $stmt = $conn->prepare("INSERT INTO sessions (course_name, session_type, time, professor_id, session_group) VALUES (?, ?, ?, ?, ?)");
@@ -32,6 +37,7 @@ if (isset($_POST['add_session'])) {
     }
 }
 
+// Fetch all sessions
 $sessions = $conn->query("
     SELECT s.*, u.name AS professor_name
     FROM sessions s

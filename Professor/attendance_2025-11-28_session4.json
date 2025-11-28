@@ -1,3 +1,14 @@
 [
-    
+    {
+        "student_id": 15,
+        "name": "maria",
+        "status": "present",
+        "participation": "yes"
+    },
+    {
+        "student_id": 13,
+        "name": "manel",
+        "status": "present",
+        "participation": "no"
+    }
 ]
